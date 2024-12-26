@@ -1,0 +1,1 @@
+D:\sinned\net_maui\Sistemas\PerfectPayer\PerfectPayer.csproj;x64

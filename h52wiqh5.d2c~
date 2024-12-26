@@ -1,0 +1,84 @@
+﻿using System.Text.RegularExpressions;
+
+namespace PerfectPayer
+{
+    public partial class MainPage : ContentPage
+    {
+        //vamos a definir la propina maxima
+        private double subtotal { set; get; } = 0.0d;
+        private double PorcentajePropina { set; get; } = 0; // El porcentaje que varia para pagar de propina.
+        private double montoTotal { set; get; } = 0.0d; // el monto final que se debe pagar entre cada persona si se reparte
+        private int numeroPersonas { set; get; } = 1; // numero de personas a pagar
+
+        private string expresionRegularPrecio = "^\\$\\d{1,3}(\\.\\d{1,2})$";
+
+
+
+        public MainPage()
+        {
+            InitializeComponent();
+            CampoDefinirMonto.Text = "$0.00";
+        }
+
+        private void EntryPrecio_Completed(object sender, EventArgs e)  
+        {
+            string resultadoMonto = EntryPrecio.Text;
+            CampoDefinirMonto.Text = $"${resultadoMonto}";
+        }
+
+        private void EntryPrecio_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //dentro de este punto vamos a escuchar por los cambios realizados... 
+            string resultadoMonto = EntryPrecio.Text;
+
+            resultadoMonto = resultadoMonto.Length == 0 ? "..." : resultadoMonto;
+            resultadoMonto = $"${resultadoMonto}";
+            CampoDefinirMonto.Text = resultadoMonto;
+
+            var resultado = Regex.IsMatch(resultadoMonto, this.expresionRegularPrecio);
+
+            //tenemos que validar si el formato del precio es correcto. 
+            if (resultado)
+            {
+                this.subtotal = Double.Parse(resultadoMonto.Replace("$", ""));
+
+                //mostrar en nuestra interfaz...
+                lblSubTotal.Text = $"${subtotal}0";
+            }
+        }
+
+        private void BotonPropina(object sender, EventArgs e)
+        {
+            Button boton = sender as Button;
+            string porcentaje = boton.Text;
+
+            //vamos a calcular el monto de la propina. 
+            CalcularPropina(porcentaje);
+
+            //vamos a mostrar en nuestra interfaz este cambio.
+            lblPropina.Text = $"$ {this.PorcentajePropina}";
+
+            calcularSubTotal();
+        }
+
+        private void CalcularPropina(string porcentaje)
+        {
+            int cantidadMaximo = 25;
+            porcentaje = porcentaje.Replace("%", "");
+
+            this.PorcentajePropina = int.Parse(porcentaje) * cantidadMaximo;
+            this.PorcentajePropina = this.PorcentajePropina / 50; // %50 <- es el maximo
+        }
+
+        private void calcularSubTotal()
+        {
+            //vamos a mostrar dentro de este subtotal.
+            lblSubTotal.Text = ( this.PorcentajePropina > 0 && this.subtotal > 0.0 ) ? $"${this.subtotal + PorcentajePropina}" : $"$ {subtotal}";
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+        }
+    }    
+
+}

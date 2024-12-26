@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PerfectPayer.MainPage"
+             BackgroundColor="#323232">
+
+    <ContentPage.Resources>
+        <Color x:Key="SectionsColor">#444444</Color>
+        <Color x:Key="LightFont">#d6d6d6</Color>
+        <Color x:Key="DarkFont">#4fd8eb</Color>
+    </ContentPage.Resources>
+
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".3*"></RowDefinition>
+            <RowDefinition Height=".7*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Frame
+            x:Name="MarcoPrincipal"
+            Padding="10" 
+            BackgroundColor="{StaticResource SectionsColor}" 
+            BorderColor="Transparent">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="1"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".1*"></RowDefinition>
+                    <RowDefinition Height=".9*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Label 
+                    TextTransform="Uppercase"
+                    TextColor="{StaticResource DarkFont}"
+                    HorizontalTextAlignment="Center"
+                    FontAttributes="Bold"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Text="Total p/person"></Label>
+
+                <Label 
+                    TextColor="{StaticResource LightFont}"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    FontSize="50"
+                    FontAttributes="Bold"
+                    x:Name="CampoDefinirMonto"
+                    Text="$0.00"></Label>
+
+                <BoxView
+                    BackgroundColor="#adadad"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,10,0,10"></BoxView>
+
+
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="60,40,15,0"
+                    VerticalOptions="Fill">
+
+                    <Label 
+                        TextTransform="Uppercase"
+                        Text="subtotal"
+                        Padding="0,5,0,0"
+                        TextColor="{StaticResource LightFont}"></Label>
+                    <Label 
+                        Padding="0,0,0,0"
+                        x:Name="lblSubTotal"
+                        Text="$0.0"
+                        TextColor="#fff"></Label>
+
+                    <Label 
+                        Padding="0,20,0,0"
+                        TextTransform="Uppercase"
+                        Text="propina"
+                        TextColor="{StaticResource LightFont}"></Label>
+                    <Label
+                        Padding="0,.5,0,0"
+                        Text="$0.0"
+                        x:Name="lblPropina"
+                        TextColor="#fff"></Label>
+
+                </VerticalStackLayout>
+            </Grid>
+        </Frame>
+
+        <Grid 
+            Margin="0,15,0,0"
+            Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".3*"></ColumnDefinition>
+                <ColumnDefinition Width=".7*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label 
+                FontSize="15"
+                TextColor="{StaticResource LightFont}"
+                VerticalOptions="Center"
+                Text="Inserta precio: $"></Label>
+
+            <Border 
+                    StrokeThickness="2"
+                    StrokeShape="RoundRectangle 4,4,4,4"
+                    Stroke="{StaticResource SectionsColor}"
+                    Grid.Column="1" 
+                    VerticalOptions="Center">
+                <Entry
+                    x:Name="EntryPrecio"
+                    Placeholder="Ingresa una cantidad"
+                    FontFamily="OpenSansRegular"
+                    PlaceholderColor="{StaticResource LightFont}"
+                    TextColor="#fff"
+                    Keyboard="Numeric"
+                    Text="0.0"
+                    TextChanged="EntryPrecio_TextChanged"
+                    Completed="EntryPrecio_Completed"
+                    VerticalOptions="Center"
+                    BackgroundColor="{StaticResource SectionsColor}"
+                    Grid.Row="0"></Entry>
+            </Border>
+
+            <Label
+                Grid.Row="1"
+                FontSize="15"
+                TextColor="{StaticResource LightFont}"
+                VerticalOptions="Center"
+                Text="Da una propina"></Label>
+
+            <HorizontalStackLayout 
+                Grid.Column="1" 
+                Grid.Row="1"
+                Spacing="10"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+                <Button 
+                    Padding="20"
+                    FontSize="17"
+                    Clicked="BotonPropina"
+                    Text="10%"></Button>
+                <Button
+                    Padding="20"
+                    FontSize="17"
+                    Clicked="BotonPropina"
+                    Text="15%"></Button>
+                <Button 
+                    Padding="20"
+                    FontSize="17"
+                    Clicked="BotonPropina"
+                    Text="20%"></Button>
+            </HorizontalStackLayout>
+
+            <Label
+                x:Name="lblTip"
+                Grid.Row="2"
+                FontSize="15"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                TextColor="{StaticResource LightFont}"
+                Text="Propina: $0.0"
+                ></Label>
+
+            <Slider
+                x:Name="SliderTip"
+                VerticalOptions="Center"
+                Grid.Row="2"
+                Minimum="0"
+                Maximum="50"
+                ValueChanged="SliderTip_ValueChanged"
+                Grid.Column="1"></Slider>
+
+            <Label Grid.Row="3"
+                   Text="Reparte el total"
+                   TextColor="{StaticResource LightFont}"
+                   Grid.Column="0"
+                   FontSize="15"
+                   VerticalOptions="Center"></Label>
+
+            <HorizontalStackLayout
+                Grid.Row="3"
+                Grid.Column="1"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Button x:Name="btnMinus"
+                        Text="-"
+                        FontSize="20"
+                        Clicked="btnMinus_Clicked"
+                        WidthRequest="70"></Button>
+                <Label x:Name="lblPerson"
+                       BackgroundColor="{StaticResource SectionsColor}"
+                       Text="1"
+                       WidthRequest="70"
+                       TextColor="#fff"
+                       FontSize="Large"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       VerticalTextAlignment="Center"
+                       HeightRequest="50"
+                       Margin="-5,0,-5,0"
+                ></Label>
+                <Button 
+                x:Name="btnPlus"
+                Clicked="btnPlus_Clicked"
+                Text="+"
+                FontSize="20"
+                WidthRequest="70"></Button>
+            </HorizontalStackLayout>
+        </Grid>
+    </Grid>
+        
+</ContentPage>
